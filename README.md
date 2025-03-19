@@ -1,6 +1,6 @@
 # 🥟 Samosa Snatcher
 
-A fast-paced, reaction-based web game where you slice samosas for points while avoiding burned ones.
+A fast-paced, reaction-based web game where you snatch samosas for points while avoiding burned ones that penalize your score. The game features different types of samosas with varying point values, power-ups that enhance gameplay, and a progressive difficulty system.
 
 ![image](https://github.com/user-attachments/assets/e74c42de-b5a6-4ea6-a12b-10a96196a6cb)
 ![image](https://github.com/user-attachments/assets/0696ec89-b7da-46fd-9659-a110a35a2d88)
@@ -12,9 +12,6 @@ A fast-paced, reaction-based web game where you slice samosas for points while a
 
 [Play Samosa Snatcher online](https://samosa-snatcher.vercel.app)
 
-## 🔍 Game Overview
-
-Samosa Snatcher is a fun, addictive game inspired by Fruit Ninja. Players must quickly click (or tap) samosas as they appear on screen to earn points, while avoiding burned samosas that penalize your score. The game features different types of samosas with varying point values, power-ups that enhance gameplay, and a progressive difficulty system.
 
 ## ✨ Features
 
