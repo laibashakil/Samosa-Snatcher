@@ -4,9 +4,9 @@ const StartButton = ({ onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full text-xl shadow-lg transition-colors duration-200"
+      className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-sm text-xl shadow-lg transition-colors duration-200 tracking-wider border-l-2 border-r-2 border-purple-400"
     >
-      Start Slicing!
+      SNATCH!
     </button>
   );
 };

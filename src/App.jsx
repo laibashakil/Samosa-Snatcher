@@ -88,8 +88,8 @@ function App() {
     const clickedBurnedSamosa = burnedSamosas.find(samosa => samosa.id === id);
     if (!clickedBurnedSamosa) return;
     
-    // Calculate penalty (more severe in higher levels and increased base penalty)
-    const penalty = Math.min(8 + Math.floor(level / 2), 20); // Increased penalty
+    // Fixed penalty of 10 points
+    const penalty = 10;
     
     // Create negative score popup
     const newPopup = {
@@ -111,8 +111,8 @@ function App() {
     // Decrease score (but not below 0)
     setScore(prev => Math.max(prev - penalty, 0));
     
-    // Penalty: reduce time (increased time penalty)
-    setTimeLeft(prev => Math.max(prev - 3, 1)); // Increased from 2 to 3 seconds
+    // Penalty: reduce time by 5 seconds
+    setTimeLeft(prev => Math.max(prev - 5, 1));
     
     // Add a new burned samosa with delay
     setTimeout(() => {
@@ -137,19 +137,8 @@ function App() {
         setTimeout(() => setScoreMultiplier(1), 8000); // Reduced from 10000ms to 8000ms
         break;
       case 'clearAll':
-        // Clear all samosas and add new ones with points
-        setSamosas([]);
-        setScore(prev => prev + samosas.length * 2);
-        
-        // Also clear burned samosas and warnings as a bonus
-        setBurnedSamosas([]);
-        setWarningIndicators([]);
-        
-        for (let i = 0; i < 5; i++) {
-          setTimeout(() => {
-            if (gameStarted && !gameOver) addSamosa();
-          }, i * 150); // Reduced from 200ms
-        }
+        // Trigger game over
+        handleGameOver();
         break;
       default:
         break;
@@ -385,6 +374,102 @@ function App() {
       )}
       
       <GameArea>
+        {!gameStarted && !gameOver && (
+          <div className="flex flex-col items-center justify-center h-full w-full">
+            <div className="bg-gray-800 bg-opacity-70 px-8 py-5 rounded max-w-2xl text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+              <h2 className="text-xl font-bold text-purple-300 mb-4 text-center tracking-wider">HOW TO PLAY</h2>
+              <div className="flex justify-center gap-5 mb-6">
+                <div className="flex flex-col items-center">
+                  <div className="w-12 h-12 mb-1 flex items-center justify-center">
+                    <div className="w-10 h-8 relative">
+                      <div className="absolute top-0 left-0 w-0 h-0 
+                        border-l-[20px] border-r-[20px] border-b-[40px] 
+                        border-l-transparent border-r-transparent border-b-amber-600
+                        rotate-180" 
+                      />
+                      <div className="absolute top-1 left-2 w-6 h-6 bg-amber-500 rounded-tl-xl rounded-br-xl" />
+                    </div>
+                  </div>
+                  <span className="text-white text-xs font-medium">Regular</span>
+                  <span className="text-green-400 text-xs">+1 pt</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-12 h-12 mb-1 flex items-center justify-center">
+                    <div className="w-10 h-8 relative">
+                      <div className="absolute top-0 left-0 w-0 h-0 
+                        border-l-[20px] border-r-[20px] border-b-[40px] 
+                        border-l-transparent border-r-transparent border-b-red-600
+                        rotate-180" 
+                      />
+                      <div className="absolute top-1 left-2 w-6 h-6 bg-red-500 rounded-tl-xl rounded-br-xl" />
+                    </div>
+                  </div>
+                  <span className="text-white text-xs font-medium">Spicy</span>
+                  <span className="text-green-400 text-xs">+2 pts</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-12 h-12 mb-1 flex items-center justify-center">
+                    <div className="w-10 h-8 relative">
+                      <div className="absolute top-0 left-0 w-0 h-0 
+                        border-l-[20px] border-r-[20px] border-b-[40px] 
+                        border-l-transparent border-r-transparent border-b-yellow-400
+                        rotate-180" 
+                      />
+                      <div className="absolute top-1 left-2 w-6 h-6 bg-yellow-300 rounded-tl-xl rounded-br-xl" />
+                    </div>
+                  </div>
+                  <span className="text-white text-xs font-medium">Golden</span>
+                  <span className="text-green-400 text-xs">+5 pts</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-12 h-12 mb-1 flex items-center justify-center">
+                    <div className="w-10 h-8 relative">
+                      <div className="absolute top-0 left-0 w-0 h-0 
+                        border-l-[20px] border-r-[20px] border-b-[40px] 
+                        border-l-transparent border-r-transparent border-b-gray-800
+                        rotate-180" 
+                      />
+                      <div className="absolute top-1 left-2 w-6 h-6 bg-gray-900 rounded-tl-xl rounded-br-xl"></div>
+                    </div>
+                  </div>
+                  <span className="text-white text-xs font-medium">Burned</span>
+                  <span className="text-red-400 text-xs">-10 pts, -5 sec</span>
+                </div>
+              </div>
+              
+              <div className="flex justify-center gap-6 mb-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-12 h-12 mb-1 flex items-center justify-center bg-blue-500 rounded-full text-xl">
+                    ⏱️
+                  </div>
+                  <span className="text-white text-xs font-medium">Time Bonus</span>
+                  <span className="text-blue-400 text-xs">+10 sec</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-12 h-12 mb-1 flex items-center justify-center bg-purple-500 rounded-full text-xl">
+                    2️⃣
+                  </div>
+                  <span className="text-white text-xs font-medium">Multiplier</span>
+                  <span className="text-purple-400 text-xs">2× pts for 8s</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-12 h-12 mb-1 flex items-center justify-center bg-red-500 rounded-full text-xl">
+                    💥
+                  </div>
+                  <span className="text-white text-xs font-medium">Bomb</span>
+                  <span className="text-red-400 text-xs">Game Over!</span>
+                </div>
+              </div>
+              
+              <p className="text-white text-xs mt-4 px-2">Snatch samosas for points! Avoid burned ones. Use powerups to help.</p>
+              
+              <div className="mt-5">
+                <StartButton onClick={handleStartGame} />
+              </div>
+            </div>
+          </div>
+        )}
+        
         {gameStarted && warningIndicators.map(warning => (
           <WarningIndicator
             key={warning.id}
@@ -444,7 +529,11 @@ function App() {
         )}
       </GameArea>
       
-      {!gameStarted && !gameOver && <StartButton onClick={handleStartGame} />}
+      {!gameStarted && !gameOver && (
+        <div className="absolute opacity-0 pointer-events-none">
+          <StartButton onClick={handleStartGame} />
+        </div>
+      )}
       
       {level === 1 && gameStarted && (
         <div className="mt-4 bg-red-900 bg-opacity-50 text-white px-6 py-2 rounded-sm font-medium border-l-2 border-r-2 border-red-600 flex items-center">
