@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="450" fill="#1f2937" />
+  
+  <!-- Game area -->
+  <rect x="150" y="50" width="500" height="350" rx="8" fill="#111827" />
+  
+  <!-- Game title -->
+  <text x="400" y="35" font-family="Arial" font-size="24" fill="#f3f4f6" text-anchor="middle" font-weight="bold">SAMOSA SNATCHER</text>
+  
+  <!-- UI Elements -->
+  <rect x="180" y="80" width="120" height="30" rx="4" fill="#4b5563" />
+  <text x="240" y="100" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Score: 42</text>
+  
+  <rect x="500" y="80" width="120" height="30" rx="4" fill="#4b5563" />
+  <text x="560" y="100" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Time: 15s</text>
+  
+  <!-- Samosas -->
+  <!-- Regular Samosa -->
+  <g transform="translate(250, 200)">
+    <path d="M0 -30 L30 30 L-30 30 Z" fill="#e9a33b" stroke="#8b4513" stroke-width="2"/>
+    <path d="M0 -15 L15 15 L-15 15 Z" fill="#d4881c" stroke-width="0"/>
+  </g>
+  
+  <!-- Spicy Samosa -->
+  <g transform="translate(350, 180)">
+    <path d="M0 -30 L30 30 L-30 30 Z" fill="#e05d44" stroke="#8b4513" stroke-width="2"/>
+    <path d="M0 -15 L15 15 L-15 15 Z" fill="#d13b2b" stroke-width="0"/>
+  </g>
+  
+  <!-- Golden Samosa -->
+  <g transform="translate(450, 220)">
+    <path d="M0 -30 L30 30 L-30 30 Z" fill="#fcd34d" stroke="#8b4513" stroke-width="2"/>
+    <path d="M0 -15 L15 15 L-15 15 Z" fill="#f59e0b" stroke-width="0"/>
+  </g>
+  
+  <!-- Burned Samosa -->
+  <g transform="translate(550, 190)">
+    <path d="M0 -30 L30 30 L-30 30 Z" fill="#4b5563" stroke="#1f2937" stroke-width="2"/>
+    <path d="M0 -15 L15 15 L-15 15 Z" fill="#1f2937" stroke-width="0"/>
+  </g>
+  
+  <!-- Power-up -->
+  <circle cx="300" cy="300" r="15" fill="#8b5cf6" />
+  <text x="300" y="305" font-family="Arial" font-size="14" fill="white" text-anchor="middle">2×</text>
+  
+  <!-- Score popup -->
+  <text x="350" y="150" font-family="Arial" font-size="16" fill="#10b981" text-anchor="middle" font-weight="bold">+2</text>
+  
+  <!-- Level indicator -->
+  <rect x="320" y="80" width="160" height="30" rx="4" fill="#4b5563" />
+  <text x="400" y="100" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Level 3 (Target: 40)</text>
+</svg> 
