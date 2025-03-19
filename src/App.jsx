@@ -338,9 +338,43 @@ function App() {
            backgroundSize: '20px 20px, 35px 35px, 50px 50px, 100px 100px, 75px 75px'
          }}>
       
-      <h1 className="text-3xl font-bold text-purple-300 mb-6 px-6 py-2 rounded-lg bg-purple-900 bg-opacity-50 border-2 border-purple-500 shadow-lg">
-        Samosa Snatcher
-      </h1>
+      <div className="mb-10 relative">
+        <h1 className="text-4xl font-bold uppercase tracking-widest text-slate-200 relative" 
+            style={{
+              fontFamily: "'Rajdhani', 'Electrolize', sans-serif",
+              letterSpacing: "0.15em",
+              textShadow: "0 0 2px rgba(255,255,255,0.5), 0 0 15px rgba(111, 76, 255, 0.5)"
+            }}>
+          <span className="relative inline-block">
+            <span className="opacity-30 absolute top-0 left-1 text-purple-800">SAMOSA</span>
+            <span className="relative z-10">SAMOSA</span>
+          </span>
+          <span className="mx-1"></span>
+          <span className="relative inline-block text-cyan-100">
+            <span className="opacity-30 absolute top-0 left-1 text-cyan-800">SNATCHER</span>
+            <span className="relative z-10">SNATCHER</span>
+          </span>
+        </h1>
+        
+        <div className="h-1.5 w-full mt-3 rounded-sm overflow-hidden shadow-lg">
+          <div 
+            className="h-full w-full bg-gradient-to-r from-purple-600 via-cyan-400 to-purple-600" 
+            style={{
+              animation: "gradientShift 2s linear infinite",
+              backgroundSize: "200% 100%"
+            }}
+          ></div>
+        </div>
+        
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            @keyframes gradientShift {
+              0% { background-position: 0% 0; }
+              100% { background-position: 200% 0; }
+            }
+          `
+        }} />
+      </div>
       
       {gameStarted && (
         <>
@@ -413,14 +447,20 @@ function App() {
       {!gameStarted && !gameOver && <StartButton onClick={handleStartGame} />}
       
       {level === 1 && gameStarted && (
-        <div className="mt-4 bg-red-900 text-white px-4 py-2 rounded-lg font-bold border border-red-500">
-          Warning: This game is challenging! Avoid the burned samosas!
+        <div className="mt-4 bg-red-900 bg-opacity-50 text-white px-6 py-2 rounded-sm font-medium border-l-2 border-r-2 border-red-600 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+          </svg>
+          Warning: Avoid burned samosas
         </div>
       )}
       
       {scoreMultiplier > 1 && gameStarted && (
-        <div className="mt-4 bg-purple-800 text-white px-4 py-2 rounded-full font-bold animate-pulse border border-purple-500">
-          2x Points Active!
+        <div className="mt-4 bg-purple-900 bg-opacity-50 text-white px-6 py-2 rounded-sm font-medium flex items-center border-l-2 border-r-2 border-purple-400">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-purple-300" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+          </svg>
+          <span className="mr-1">2x</span> Score Multiplier Active
         </div>
       )}
     </div>
