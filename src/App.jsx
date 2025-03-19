@@ -111,9 +111,6 @@ function App() {
     // Decrease score (but not below 0)
     setScore(prev => Math.max(prev - penalty, 0));
     
-    // Penalty: reduce time by 5 seconds
-    setTimeLeft(prev => Math.max(prev - 5, 1));
-    
     // Add a new burned samosa with delay
     setTimeout(() => {
       if (gameStarted && !gameOver) {
@@ -208,10 +205,10 @@ function App() {
     
     setPowerUps(prev => [...prev, newPowerUp]);
     
-    // Power-up disappears after shorter time if not clicked
+    // Power-up disappears after time if not clicked
     setTimeout(() => {
       setPowerUps(prev => prev.filter(powerUp => powerUp.id !== newPowerUp.id));
-    }, 6000); // Reduced from 8000ms
+    }, 8000); // Increased from 6000ms to give players more time
   }, [gameStarted, gameOver]);
 
   // Game timer
@@ -234,11 +231,17 @@ function App() {
     if (gameStarted && !gameOver) {
       powerUpTimer = setInterval(() => {
         // Spawn power-up based on random chance and level
-        // Made power-ups slightly less common
-        if (Math.random() < 0.12 + level * 0.015) {
-          addPowerUp();
+        // Increased power-up frequency
+        if (Math.random() < 0.25 + level * 0.03) {
+          // Sometimes spawn multiple power-ups at once
+          const powerUpCount = Math.random() < 0.3 ? 2 : 1;
+          for (let i = 0; i < powerUpCount; i++) {
+            setTimeout(() => {
+              if (gameStarted && !gameOver) addPowerUp();
+            }, i * 300);
+          }
         }
-      }, 12000); // Increased from 10000ms to reduce power-up frequency
+      }, 6000); // Reduced from 12000ms to increase power-up frequency
     }
     
     return () => clearInterval(powerUpTimer);
@@ -433,7 +436,7 @@ function App() {
                     </div>
                   </div>
                   <span className="text-white text-xs font-medium">Burned</span>
-                  <span className="text-red-400 text-xs">-10 pts, -5 sec</span>
+                  <span className="text-red-400 text-xs">-10 pts</span>
                 </div>
               </div>
               
@@ -476,6 +479,16 @@ function App() {
             position={warning.position}
           />
         ))}
+        
+        {/* Score multiplier notification */}
+        {scoreMultiplier > 1 && gameStarted && (
+          <div className="absolute top-2 right-2 bg-purple-900 bg-opacity-70 text-white px-3 py-1 rounded-sm text-sm font-medium flex items-center border-l-2 border-r-2 border-purple-400 z-50 animate-pulse">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-purple-300" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+            </svg>
+            <span className="font-bold">2×</span>
+          </div>
+        )}
         
         {gameStarted && samosas.map(samosa => (
           <Samosa 
@@ -532,24 +545,6 @@ function App() {
       {!gameStarted && !gameOver && (
         <div className="absolute opacity-0 pointer-events-none">
           <StartButton onClick={handleStartGame} />
-        </div>
-      )}
-      
-      {level === 1 && gameStarted && (
-        <div className="mt-4 bg-red-900 bg-opacity-50 text-white px-6 py-2 rounded-sm font-medium border-l-2 border-r-2 border-red-600 flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-          </svg>
-          Warning: Avoid burned samosas
-        </div>
-      )}
-      
-      {scoreMultiplier > 1 && gameStarted && (
-        <div className="mt-4 bg-purple-900 bg-opacity-50 text-white px-6 py-2 rounded-sm font-medium flex items-center border-l-2 border-r-2 border-purple-400">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-purple-300" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-          </svg>
-          <span className="mr-1">2x</span> Score Multiplier Active
         </div>
       )}
     </div>
