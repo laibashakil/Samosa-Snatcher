@@ -2,7 +2,11 @@
 
 A fast-paced, reaction-based web game where you slice samosas for points while avoiding burned ones.
 
-![Samosa Snatcher Game](./public/samosa-screenshot.svg)
+![image](https://github.com/user-attachments/assets/e74c42de-b5a6-4ea6-a12b-10a96196a6cb)
+![image](https://github.com/user-attachments/assets/0696ec89-b7da-46fd-9659-a110a35a2d88)
+![image](https://github.com/user-attachments/assets/4ec1e444-b925-4ce6-b550-b3fa6d7eaef4)
+![image](https://github.com/user-attachments/assets/5ffe1ca5-1958-4d11-b1ea-565ba5d70d15)
+
 
 ## 🎮 Play Now
 
