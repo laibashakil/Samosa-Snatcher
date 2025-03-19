@@ -20,7 +20,7 @@ function App() {
   const [burnedSamosas, setBurnedSamosas] = useState([]);
   const [warningIndicators, setWarningIndicators] = useState([]);
   const [powerUps, setPowerUps] = useState([]);
-  const [timeLeft, setTimeLeft] = useState(30);
+  const [timeLeft, setTimeLeft] = useState(20);
   const [level, setLevel] = useState(1);
   const [targetScore, setTargetScore] = useState(10);
   const [scoreMultiplier, setScoreMultiplier] = useState(1);
@@ -47,7 +47,6 @@ function App() {
     switch (clickedSamosa.type) {
       case 'spicy': points = 2; break;
       case 'golden': points = 5; break;
-      case 'mega': points = 10; break;
       default: points = 1;
     }
     
@@ -131,7 +130,7 @@ function App() {
     // Apply power-up effect based on type
     switch (clickedPowerUp.type) {
       case 'timePlus':
-        setTimeLeft(prev => Math.min(prev + 10, 30)); // Reduced time bonus from 15 to 10
+        setTimeLeft(prev => Math.min(prev + 10, 20)); // Cap at 20 seconds
         break;
       case 'pointsDouble':
         setScoreMultiplier(2);
@@ -171,8 +170,6 @@ function App() {
       type = 'golden'; // Golden is rare
     } else if (rand < 12 + level * 1.5) {
       type = 'spicy'; // Spicy is uncommon
-    } else if (rand < 3 + level * 0.4) {
-      type = 'mega'; // Mega is very rare but more common at higher levels
     }
     
     const newSamosa = {
@@ -189,37 +186,21 @@ function App() {
     
     const position = generateRandomPosition();
     
-    // Create and show warning
-    const warningId = Date.now();
-    setWarningIndicators(prev => [...prev, {
-      id: warningId,
+    // Immediately add burned samosa without warning
+    const newBurnedSamosa = {
+      id: Date.now(),
       position
-    }]);
+    };
+    setBurnedSamosas(prev => [...prev, newBurnedSamosa]);
     
-    // After warning animation, add the burned samosa at the same position
-    // Reduced warning time to make game harder
+    // Auto-remove after some time if not clicked (harder in higher levels)
+    // Further reduced time to remove, making them disappear faster
+    const timeToRemove = Math.max(6000 - level * 500, 2000); // Reduced from 8000/3000 to 6000/2000
     setTimeout(() => {
-      // Remove warning
-      setWarningIndicators(prev => prev.filter(warning => warning.id !== warningId));
-      
-      // Add burned samosa if game is still active
       if (gameStarted && !gameOver) {
-        const newBurnedSamosa = {
-          id: Date.now(),
-          position
-        };
-        setBurnedSamosas(prev => [...prev, newBurnedSamosa]);
-        
-        // Auto-remove after some time if not clicked (harder in higher levels)
-        // Further reduced time to remove, making them disappear faster
-        const timeToRemove = Math.max(6000 - level * 500, 2000); // Reduced from 8000/3000 to 6000/2000
-        setTimeout(() => {
-          if (gameStarted && !gameOver) {
-            setBurnedSamosas(prev => prev.filter(s => s.id !== newBurnedSamosa.id));
-          }
-        }, timeToRemove);
+        setBurnedSamosas(prev => prev.filter(s => s.id !== newBurnedSamosa.id));
       }
-    }, 1000); // Reduced from 1500ms to 1000ms
+    }, timeToRemove);
   };
 
   // Add a power-up
@@ -296,7 +277,7 @@ function App() {
       setLevel(prev => prev + 1);
       setTargetScore(prev => prev + 10 + level * 5);
       // Reduced time bonus for level up
-      setTimeLeft(prev => Math.min(prev + 8, 30)); // Reduced from 15 to 8 seconds
+      setTimeLeft(prev => Math.min(prev + 8, 20)); // Cap at 20 seconds
     }
   }, [score, targetScore, gameStarted, level]);
 
@@ -316,7 +297,7 @@ function App() {
     setScore(0);
     setGameStarted(true);
     setGameOver(false);
-    setTimeLeft(30); // Reduced from 60 to 30 seconds
+    setTimeLeft(20); // Reduced from 30 to 20 seconds
     setLevel(1);
     setTargetScore(10);
     setScoreMultiplier(1);
@@ -347,8 +328,19 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-blue-600 flex flex-col items-center justify-center p-4">
-      <h1 className="text-3xl font-bold text-white mb-6">Samosa Stack Slicer</h1>
+    <div className="min-h-screen w-full bg-gray-900 flex flex-col items-center justify-center p-4" 
+         style={{
+           backgroundImage: `radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.4) 1px, transparent 1px), 
+                             radial-gradient(circle at 25% 25%, rgba(124, 58, 237, 0.2) 2px, transparent 2px),
+                             radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                             radial-gradient(circle at 10% 90%, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+                             radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.1) 1px, transparent 1px)`,
+           backgroundSize: '20px 20px, 35px 35px, 50px 50px, 100px 100px, 75px 75px'
+         }}>
+      
+      <h1 className="text-3xl font-bold text-purple-300 mb-6 px-6 py-2 rounded-lg bg-purple-900 bg-opacity-50 border-2 border-purple-500 shadow-lg">
+        Samosa Snatcher
+      </h1>
       
       {gameStarted && (
         <>
@@ -421,13 +413,13 @@ function App() {
       {!gameStarted && !gameOver && <StartButton onClick={handleStartGame} />}
       
       {level === 1 && gameStarted && (
-        <div className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg font-bold">
+        <div className="mt-4 bg-red-900 text-white px-4 py-2 rounded-lg font-bold border border-red-500">
           Warning: This game is challenging! Avoid the burned samosas!
         </div>
       )}
       
       {scoreMultiplier > 1 && gameStarted && (
-        <div className="mt-4 bg-purple-500 text-white px-4 py-2 rounded-full font-bold animate-pulse">
+        <div className="mt-4 bg-purple-800 text-white px-4 py-2 rounded-full font-bold animate-pulse border border-purple-500">
           2x Points Active!
         </div>
       )}

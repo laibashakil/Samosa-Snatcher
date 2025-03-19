@@ -2,12 +2,12 @@ import React from 'react';
 
 const Timer = ({ timeLeft, isActive }) => {
   // Calculate percentage for progress bar
-  const percentage = (timeLeft / 60) * 100;
+  const percentage = (timeLeft / 20) * 100;
   
   // Determine color based on time left
   let colorClass = 'bg-green-500';
-  if (timeLeft <= 20) colorClass = 'bg-red-500';
-  else if (timeLeft <= 30) colorClass = 'bg-yellow-500';
+  if (timeLeft <= 5) colorClass = 'bg-red-500';
+  else if (timeLeft <= 10) colorClass = 'bg-yellow-500';
   
   return (
     <div className="w-full max-w-[400px] mb-4">
