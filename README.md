@@ -41,7 +41,7 @@ Samosa Snatcher is a fun, addictive game inspired by Fruit Ninja. Players must q
 
 ## 🎯 How to Play
 
-1. Click the "START GAME" button
+1. Click the "SNATCH" button to start the game
 2. Click/tap samosas as they appear on screen to earn points
 3. Avoid burned samosas which cost you 10 points
 4. Collect power-ups to gain advantages
@@ -112,4 +112,4 @@ MIT License
 ## 🙏 Acknowledgements
 
 - Inspired by Fruit Ninja
-- Developed with ❤️ by [Your Name]
+- Developed with ❤️ by Laiba Shakil
