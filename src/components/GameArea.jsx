@@ -1,13 +1,11 @@
 import React from 'react';
-import ifterBackdrop from '../assets/iftar-backdrop.png';
 
 const GameArea = ({ children }) => {
   return (
     <div className="w-[400px] h-[600px] rounded-lg shadow-lg mb-6 relative overflow-hidden">
-      {/* Background image */}
+      {/* Background color */}
       <div
-        className="absolute inset-0 bg-cover bg-center z-0"
-        style={{ backgroundImage: `url(${ifterBackdrop})` }}
+        className="absolute inset-0 bg-amber-50 z-0"
       ></div>
       
       {/* Semi-transparent overlay */}

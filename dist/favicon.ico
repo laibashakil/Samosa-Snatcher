@@ -1,1 +1,14 @@
- 
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 64 64">
+  <!-- Regular Samosa from the game -->
+  <g transform="translate(32, 32)">
+    <!-- Outer triangle (border-b-amber-600 in the code) -->
+    <path d="M0 -29 L30 29 L-30 29 Z" fill="transparent" stroke="#d97706" stroke-width="2" />
+    
+    <!-- Triangle fill -->
+    <path d="M0 -28 L29 28 L-29 28 Z" fill="#d97706" />
+    
+    <!-- Inner rounded square (bg-amber-500 in the code) -->
+    <rect x="-12" y="-12" width="24" height="24" rx="11" ry="0" 
+          transform="rotate(45)" fill="#f59e0b" />
+  </g>
+</svg> 
